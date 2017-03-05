@@ -1,8 +1,10 @@
-package com.example.android.homecookinrecipes.Data;
+package com.example.android.homecookinrecipes.data;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,8 +18,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static android.R.attr.rating;
-
 /**
  * Created by Joseph on 2/28/2017.
  */
@@ -26,9 +26,11 @@ public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
     public static final String TAG = FetchRecipeData.class.getSimpleName();
 
     private Context mContext;
+    private RecyclerView mRecyclerView;
 
-    public FetchRecipeData(Context context){
+    public FetchRecipeData(Context context, RecyclerView recyclerView){
         mContext = context;
+        mRecyclerView = recyclerView;
     }
 
     @Override
@@ -122,8 +124,10 @@ public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
 
     @Override
     protected void onPostExecute(Recipe[] result){
-        for(Recipe recipe : result){
-            Log.d(TAG, recipe.getTitle());
-        }
+
+        RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(mContext, result);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setAdapter(adapter);
+
     }
 }

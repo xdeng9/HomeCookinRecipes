@@ -1,4 +1,4 @@
-package com.example.android.homecookinrecipes.Data;
+package com.example.android.homecookinrecipes.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
