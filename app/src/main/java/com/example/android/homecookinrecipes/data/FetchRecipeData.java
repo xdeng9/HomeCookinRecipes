@@ -25,12 +25,14 @@ import java.net.URL;
 public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
     public static final String TAG = FetchRecipeData.class.getSimpleName();
 
-    private Context mContext;
-    private RecyclerView mRecyclerView;
+    public interface AsyncResponse {
+        void processResult(Recipe[] result);
+    }
 
-    public FetchRecipeData(Context context, RecyclerView recyclerView){
-        mContext = context;
-        mRecyclerView = recyclerView;
+    public AsyncResponse delegate = null;
+
+    public FetchRecipeData(AsyncResponse delegate){
+        this.delegate = delegate;
     }
 
     @Override
@@ -125,9 +127,6 @@ public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
     @Override
     protected void onPostExecute(Recipe[] result){
 
-        RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(mContext, result);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.setAdapter(adapter);
-
+        delegate.processResult(result);
     }
 }

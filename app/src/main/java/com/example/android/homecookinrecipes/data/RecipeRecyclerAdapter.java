@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.android.homecookinrecipes.R;
@@ -21,7 +22,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     private Recipe[] mRecipes;
 
-    public RecipeRecyclerAdapter(Context context, Recipe[] recipes){
+    public RecipeRecyclerAdapter(Recipe[] recipes){
         mRecipes = recipes;
     }
 
@@ -30,12 +31,14 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         ImageView recipeImage;
         TextView recipeTitle;
         TextView recipePublisher;
+        RatingBar recipeRating;
 
         public ViewHolder(View view){
             super(view);
             recipeImage = (ImageView) view.findViewById(R.id.recipe_image);
             recipeTitle = (TextView) view.findViewById(R.id.recipe_title);
             recipePublisher = (TextView) view.findViewById(R.id.recipe_publisher);
+            recipeRating = (RatingBar) view.findViewById(R.id.recipe_rating);
         }
     }
 
@@ -50,6 +53,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
         holder.recipeTitle.setText(mRecipes[position].getTitle());
         holder.recipePublisher.setText(mRecipes[position].getPublisher());
+        float rating = (float) mRecipes[position].getRating();
+        holder.recipeRating.setRating(rating/20f);
     }
 
     @Override

@@ -7,10 +7,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.android.homecookinrecipes.data.FetchRecipeData;
+import com.example.android.homecookinrecipes.data.Recipe;
+import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,8 +39,15 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         sortOrder = "r";
-        FetchRecipeData recipeTask = new FetchRecipeData(this, mRecyclerView);
-        recipeTask.execute(sortOrder);
+        FetchRecipeData recipeTask = new FetchRecipeData(new FetchRecipeData.AsyncResponse() {
+            @Override
+            public void processResult(Recipe[] result){
+                RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(result);
+                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                mRecyclerView.setAdapter(adapter);
+            }
+        });
+           recipeTask.execute(sortOrder);
     }
 
     @Override
