@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         FetchRecipeData recipeTask = new FetchRecipeData(new FetchRecipeData.AsyncResponse() {
             @Override
             public void processResult(Recipe[] result){
-                RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(result);
+                RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(MainActivity.this, result);
                 mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
                 mRecyclerView.setAdapter(adapter);
             }

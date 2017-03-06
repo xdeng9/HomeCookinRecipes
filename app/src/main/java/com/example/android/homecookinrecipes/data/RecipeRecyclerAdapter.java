@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.homecookinrecipes.R;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
@@ -21,19 +22,21 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
 
     private Recipe[] mRecipes;
+    private Context mContext;
 
-    public RecipeRecyclerAdapter(Recipe[] recipes){
+    public RecipeRecyclerAdapter(Context context, Recipe[] recipes) {
+        mContext = context;
         mRecipes = recipes;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView recipeImage;
         TextView recipeTitle;
         TextView recipePublisher;
         RatingBar recipeRating;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             recipeImage = (ImageView) view.findViewById(R.id.recipe_image);
             recipeTitle = (TextView) view.findViewById(R.id.recipe_title);
@@ -50,11 +53,15 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         holder.recipeTitle.setText(mRecipes[position].getTitle());
         holder.recipePublisher.setText(mRecipes[position].getPublisher());
         float rating = (float) mRecipes[position].getRating();
-        holder.recipeRating.setRating(rating/20f);
+        holder.recipeRating.setRating(rating / 20f);
+
+        Glide.with(mContext)
+                .load(mRecipes[position].getImage_url())
+                .fitCenter()
+                .into(holder.recipeImage);
     }
 
     @Override
