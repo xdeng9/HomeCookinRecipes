@@ -2,6 +2,7 @@ package com.example.android.homecookinrecipes.data;
 
 import android.content.Context;
 import android.media.Image;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;

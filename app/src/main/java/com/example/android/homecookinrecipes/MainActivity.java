@@ -1,6 +1,7 @@
 package com.example.android.homecookinrecipes;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,7 +20,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
-    private String sortOrder;
+    private String mSortOrder;
+    private GridLayoutManager mGridLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +40,18 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mGridLayoutManager = new GridLayoutManager(this, 2);
+        mSortOrder = "r";
 
-        sortOrder = "r";
         FetchRecipeData recipeTask = new FetchRecipeData(new FetchRecipeData.AsyncResponse() {
             @Override
             public void processResult(Recipe[] result){
                 RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(MainActivity.this, result);
-                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
                 mRecyclerView.setAdapter(adapter);
             }
         });
-           recipeTask.execute(sortOrder);
+           recipeTask.execute(mSortOrder);
     }
 
     @Override
