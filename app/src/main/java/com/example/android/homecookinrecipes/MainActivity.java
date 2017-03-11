@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.android.homecookinrecipes.data.FetchRecipeData;
 import com.example.android.homecookinrecipes.data.Recipe;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
+import com.example.android.homecookinrecipes.utility.Util;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,7 +25,11 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private String mSortOrder;
     private StaggeredGridLayoutManager mLayoutManager;
-    private int mPage;
+    private int mPage, mLastPosition;
+    private boolean mLoading;
+    private Recipe[] mAllRecipes;
+
+    private static final int MAX_REQUEST_ALLOWED = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +50,30 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.addOnScrollListener(new EndlessScrollList());
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mSortOrder = "r";
         mPage = 1;
 
         loadRecipeData(mSortOrder, String.valueOf(mPage));
     }
 
-    private void loadRecipeData(String... params){
+    private void loadRecipeData(String... params) {
         FetchRecipeData recipeTask = new FetchRecipeData(new FetchRecipeData.AsyncResponse() {
             @Override
-            public void processResult(Recipe[] result){
-                RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(MainActivity.this, result);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(adapter);
+            public void processResult(Recipe[] result) {
+                refreshView(result);
             }
         });
         recipeTask.execute(params);
+    }
+
+    private void refreshView(Recipe[] result) {
+        mAllRecipes = Util.addRecipeArrays(mAllRecipes, result);
+        RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(MainActivity.this, mAllRecipes);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.invalidate();
+        mRecyclerView.scrollToPosition(mLastPosition);
+        mLoading = true;
     }
 
     @Override
@@ -119,23 +132,24 @@ public class MainActivity extends AppCompatActivity
     private class EndlessScrollList extends RecyclerView.OnScrollListener {
         int pastVisibleItems, visibleItems, totalItems;
         boolean loading = true;
+
         @Override
-        public void onScrolled(RecyclerView view, int dx, int dy){
-            if(dy > 0){
+        public void onScrolled(RecyclerView view, int dx, int dy) {
+            if (dy > 0) {
                 visibleItems = mLayoutManager.getChildCount();
                 totalItems = mLayoutManager.getItemCount();
                 int[] firstVisiblePositions = new int[2];
                 pastVisibleItems = mLayoutManager.findFirstVisibleItemPositions(firstVisiblePositions)[0];
 
-                Log.d("VisibleItems=",""+visibleItems+" pastVisible="+pastVisibleItems);
+                Log.d("VisibleItems=", "" + visibleItems + " pastVisible=" + pastVisibleItems + " total=" + totalItems);
 
-                if (loading){
-                    if((visibleItems+pastVisibleItems) >= totalItems ){
+                if (mLoading && mPage <= MAX_REQUEST_ALLOWED) {
+                    if ((visibleItems + pastVisibleItems) >= totalItems-10) {
+                        mLoading = false;
                         mPage++;
+                        mLastPosition = pastVisibleItems;
                         loadRecipeData(mSortOrder, String.valueOf(mPage));
-                        loading = false;
                     }
-
                 }
 
             }

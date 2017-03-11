@@ -9,6 +9,10 @@ import com.example.android.homecookinrecipes.data.Recipe;
 public class Util {
 
     public static Recipe[] addRecipeArrays(Recipe[] old, Recipe[] fresh){
+
+        if(old == null)
+            return fresh;
+
         Recipe[] all = new Recipe[old.length+fresh.length];
 
         int i;
