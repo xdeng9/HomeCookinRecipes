@@ -69,4 +69,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     public int getItemCount() {
         return mRecipes.length;
     }
+
+    public Recipe[] getRecipes(){
+        return mRecipes;
+    }
 }

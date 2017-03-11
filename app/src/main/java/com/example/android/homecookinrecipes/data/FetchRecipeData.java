@@ -43,6 +43,7 @@ public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
         String jsonResponse = null;
 
         final String SORT_PARAM = "sort";
+        final String PAGE_PARAM = "page";
         final String KEY_PARAM = "key";
         final String API_KEY = "500bdd2ed4423c9e460ca447d1b194e2";
         final String FOOD_URL = "http://food2fork.com/api/search";
@@ -51,6 +52,7 @@ public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
             Uri uri = Uri.parse(FOOD_URL).buildUpon()
                     .appendQueryParameter(KEY_PARAM, API_KEY)
                     .appendQueryParameter(SORT_PARAM, params[0])
+                    .appendQueryParameter(PAGE_PARAM, params[1])
                     .build();
 
             Log.d(TAG, uri.toString());

@@ -10,7 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.FetchRecipeData;
 import com.example.android.homecookinrecipes.data.Recipe;
@@ -21,7 +23,8 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView mRecyclerView;
     private String mSortOrder;
-    private GridLayoutManager mGridLayoutManager;
+    private StaggeredGridLayoutManager mLayoutManager;
+    private int mPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +43,24 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mGridLayoutManager = new GridLayoutManager(this, 2);
+        mRecyclerView.addOnScrollListener(new EndlessScrollList());
+        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mSortOrder = "r";
+        mPage = 1;
 
+        loadRecipeData(mSortOrder, String.valueOf(mPage));
+    }
+
+    private void loadRecipeData(String... params){
         FetchRecipeData recipeTask = new FetchRecipeData(new FetchRecipeData.AsyncResponse() {
             @Override
             public void processResult(Recipe[] result){
                 RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(MainActivity.this, result);
-                mRecyclerView.setLayoutManager(mGridLayoutManager);
+                mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(adapter);
             }
         });
-           recipeTask.execute(mSortOrder);
+        recipeTask.execute(params);
     }
 
     @Override
@@ -105,5 +114,31 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class EndlessScrollList extends RecyclerView.OnScrollListener {
+        int pastVisibleItems, visibleItems, totalItems;
+        boolean loading = true;
+        @Override
+        public void onScrolled(RecyclerView view, int dx, int dy){
+            if(dy > 0){
+                visibleItems = mLayoutManager.getChildCount();
+                totalItems = mLayoutManager.getItemCount();
+                int[] firstVisiblePositions = new int[2];
+                pastVisibleItems = mLayoutManager.findFirstVisibleItemPositions(firstVisiblePositions)[0];
+
+                Log.d("VisibleItems=",""+visibleItems+" pastVisible="+pastVisibleItems);
+
+                if (loading){
+                    if((visibleItems+pastVisibleItems) >= totalItems ){
+                        mPage++;
+                        loadRecipeData(mSortOrder, String.valueOf(mPage));
+                        loading = false;
+                    }
+
+                }
+
+            }
+        }
     }
 }
