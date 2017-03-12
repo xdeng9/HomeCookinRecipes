@@ -1,5 +1,6 @@
 package com.example.android.homecookinrecipes;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +13,16 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.FetchRecipeData;
 import com.example.android.homecookinrecipes.data.Recipe;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
 import com.example.android.homecookinrecipes.utility.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,8 +33,11 @@ public class MainActivity extends AppCompatActivity
     private int mPage, mLastPosition;
     private boolean mLoading;
     private Recipe[] mAllRecipes;
+    private RecipeRecyclerAdapter adapter;
+    ProgressDialog progressDialog;
+    private EndlessScrollList scrollList;
 
-    private static final int MAX_REQUEST_ALLOWED = 4;
+    private static final int MAX_REQUEST_ALLOWED = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,11 +62,19 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.addOnScrollListener(new EndlessScrollList());
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        scrollList = new EndlessScrollList();
+        mRecyclerView.addOnScrollListener(scrollList);
+        mRecyclerView.setHasFixedSize(true);
+        //mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        //mRecyclerView.setLayoutManager(mLayoutManager);
         mSortOrder = "r";
         mPage = 1;
+
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Fetching more recipes");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
 
         loadRecipeData(mSortOrder, String.valueOf(mPage));
     }
@@ -68,12 +90,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void refreshView(Recipe[] result) {
+
         mAllRecipes = Util.addRecipeArrays(mAllRecipes, result);
-        RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(MainActivity.this, mAllRecipes);
+        adapter = new RecipeRecyclerAdapter(MainActivity.this, mAllRecipes);
+        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        //adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.invalidate();
+        Log.d("Refresh View", "" + result.length + " isAdampterEmpty? " + adapter.getItemCount());
+        //mRecyclerView.invalidate();
         mRecyclerView.scrollToPosition(mLastPosition);
         mLoading = true;
+//        Log.d("Refresh view:", progressDialog ==null? "true": "false");
+        progressDialog.dismiss();
+        if (mPage < MAX_REQUEST_ALLOWED)
+            mRecyclerView.addOnScrollListener(scrollList);
     }
 
     @Override
@@ -85,28 +116,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        // getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -131,7 +140,6 @@ public class MainActivity extends AppCompatActivity
 
     private class EndlessScrollList extends RecyclerView.OnScrollListener {
         int pastVisibleItems, visibleItems, totalItems;
-        boolean loading = true;
 
         @Override
         public void onScrolled(RecyclerView view, int dx, int dy) {
@@ -144,15 +152,17 @@ public class MainActivity extends AppCompatActivity
                 Log.d("VisibleItems=", "" + visibleItems + " pastVisible=" + pastVisibleItems + " total=" + totalItems);
 
                 if (mLoading && mPage <= MAX_REQUEST_ALLOWED) {
-                    if ((visibleItems + pastVisibleItems) >= totalItems-10) {
+                    if ((visibleItems + pastVisibleItems) >= totalItems) {
                         mLoading = false;
                         mPage++;
                         mLastPosition = pastVisibleItems;
+                        progressDialog.show();
+                        mRecyclerView.removeOnScrollListener(scrollList);
                         loadRecipeData(mSortOrder, String.valueOf(mPage));
                     }
                 }
-
             }
+            Log.d("Total recipes=", "" + mAllRecipes.length);
         }
     }
 }

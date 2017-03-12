@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "368566860530",
+    "firebase_url": "https://homecookin-recipes.firebaseio.com",
+    "project_id": "homecookin-recipes",
+    "storage_bucket": "homecookin-recipes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368566860530:android:eb909a5b6533482f",
+        "android_client_info": {
+          "package_name": "com.example.android.homecookinrecipes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368566860530-2dtjf60aqc69s2k5cio60te89fkbjagm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.homecookinrecipes",
+            "certificate_hash": "b888ba8b4600a58e33476f51f7f2fd2304f910db"
+          }
+        },
+        {
+          "client_id": "368566860530-ft20t0epqbmolutta6em0694jaja7mqj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHnlsG6f4bybR6CNaxibBDrh7_zPQxvQo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368566860530-ft20t0epqbmolutta6em0694jaja7mqj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
