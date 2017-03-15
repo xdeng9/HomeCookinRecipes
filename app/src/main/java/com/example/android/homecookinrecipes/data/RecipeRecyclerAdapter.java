@@ -1,6 +1,7 @@
 package com.example.android.homecookinrecipes.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.android.homecookinrecipes.DetailActivity;
 import com.example.android.homecookinrecipes.R;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
@@ -63,6 +65,14 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
                 .load(mRecipes[position].getImage_url())
                 .fitCenter()
                 .into(holder.recipeImage);
+
+        holder.recipeImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
