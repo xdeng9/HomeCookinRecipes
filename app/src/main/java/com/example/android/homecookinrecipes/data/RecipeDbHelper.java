@@ -21,12 +21,11 @@ public class RecipeDbHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_RECIPE_TABLE =
                 "CREATE TABLE "+ RecipeContract.RecipeEntry.TABLE_NAME + " (" +
-                        RecipeContract.RecipeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " TEXT PRIMARY KEY, " +
                         RecipeContract.RecipeEntry.COLUMN_TITLE + " TEXT NOT NUll, " +
                         RecipeContract.RecipeEntry.COLUMN_PUBLISHER + " TEXT NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_SOURCE_URL + " TEXT NOT NULL, " +
-                        RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " TEXT NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_RATING + " REAL NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_ISFAV + " INTEGER NOT NULL)";
 

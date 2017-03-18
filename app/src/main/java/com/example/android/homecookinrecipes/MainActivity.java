@@ -1,7 +1,11 @@
 package com.example.android.homecookinrecipes;
 
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.FetchRecipeData;
 import com.example.android.homecookinrecipes.data.Recipe;
+import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
 import com.example.android.homecookinrecipes.utility.Util;
 import com.google.android.gms.ads.AdRequest;
@@ -25,7 +30,8 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private RecyclerView mRecyclerView;
     private String mSortOrder;
@@ -35,9 +41,7 @@ public class MainActivity extends AppCompatActivity
     private Recipe[] mAllRecipes;
     private RecipeRecyclerAdapter adapter;
     ProgressDialog progressDialog;
-    private EndlessScrollList scrollList;
-
-    private static final int MAX_REQUEST_ALLOWED = 3;
+    //private EndlessScrollList scrollList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,50 +66,51 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        scrollList = new EndlessScrollList();
-        mRecyclerView.addOnScrollListener(scrollList);
+        //scrollList = new EndlessScrollList();
+        //mRecyclerView.addOnScrollListener(scrollList);
         mRecyclerView.setHasFixedSize(true);
         //mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         //mRecyclerView.setLayoutManager(mLayoutManager);
-        mSortOrder = "r";
-        mPage = 1;
+//        mSortOrder = "r";
+//        mPage = 1;
+//        progressDialog = new ProgressDialog(MainActivity.this);
+//        progressDialog.setCancelable(false);
+//        progressDialog.setTitle("Fetching more recipes");
+//        progressDialog.setMessage("Please wait...");
+//        progressDialog.show();
+//        loadRecipeData(mSortOrder, String.valueOf(mPage));
+        getSupportLoaderManager().initLoader(101, null, this);
 
-        progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle("Fetching more recipes");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-
-        loadRecipeData(mSortOrder, String.valueOf(mPage));
+        Util.startImmediateSync(this);
     }
 
     private void loadRecipeData(String... params) {
         FetchRecipeData recipeTask = new FetchRecipeData(new FetchRecipeData.AsyncResponse() {
             @Override
             public void processResult(Recipe[] result) {
-                refreshView(result);
+            //    refreshView(result);
             }
         });
         recipeTask.execute(params);
     }
 
-    private void refreshView(Recipe[] result) {
-
-        mAllRecipes = Util.addRecipeArrays(mAllRecipes, result);
-        adapter = new RecipeRecyclerAdapter(MainActivity.this, mAllRecipes);
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        //adapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(adapter);
-       Log.d("Refresh View", "" + result.length + " isAdampterEmpty? " + adapter.getItemCount());
-        //mRecyclerView.invalidate();
-        mRecyclerView.scrollToPosition(mLastPosition);
-        mLoading = true;
-//        Log.d("Refresh view:", progressDialog ==null? "true": "false");
-        progressDialog.dismiss();
-        if (mPage < MAX_REQUEST_ALLOWED)
-            mRecyclerView.addOnScrollListener(scrollList);
-    }
+//    private void refreshView(Recipe[] result) {
+//
+//        mAllRecipes = Util.addRecipeArrays(mAllRecipes, result);
+//        adapter = new RecipeRecyclerAdapter(MainActivity.this, mAllRecipes);
+//        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        //adapter.notifyDataSetChanged();
+//        mRecyclerView.setAdapter(adapter);
+//       Log.d("Refresh View", "" + result.length + " isAdampterEmpty? " + adapter.getItemCount());
+//        //mRecyclerView.invalidate();
+//        mRecyclerView.scrollToPosition(mLastPosition);
+//        mLoading = true;
+////        Log.d("Refresh view:", progressDialog ==null? "true": "false");
+//        progressDialog.dismiss();
+//        if (mPage < MAX_REQUEST_ALLOWED)
+//            mRecyclerView.addOnScrollListener(scrollList);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -138,31 +143,53 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private class EndlessScrollList extends RecyclerView.OnScrollListener {
-        int pastVisibleItems, visibleItems, totalItems;
-
-        @Override
-        public void onScrolled(RecyclerView view, int dx, int dy) {
-            if (dy > 0) {
-                visibleItems = mLayoutManager.getChildCount();
-                totalItems = mLayoutManager.getItemCount();
-                int[] firstVisiblePositions = new int[2];
-                pastVisibleItems = mLayoutManager.findFirstVisibleItemPositions(firstVisiblePositions)[0];
-
-                Log.d("VisibleItems=", "" + visibleItems + " pastVisible=" + pastVisibleItems + " total=" + totalItems);
-
-                if (mLoading && mPage <= MAX_REQUEST_ALLOWED) {
-                    if ((visibleItems + pastVisibleItems) >= totalItems) {
-                        mLoading = false;
-                        mPage++;
-                        mLastPosition = pastVisibleItems;
-                        progressDialog.show();
-                        mRecyclerView.removeOnScrollListener(scrollList);
-                        loadRecipeData(mSortOrder, String.valueOf(mPage));
-                    }
-                }
-            }
-            Log.d("Total recipes=", "" + mAllRecipes.length);
-        }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(
+                this,
+                RecipeContract.RecipeEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
     }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d("NumOfRows=", ""+data.getCount());
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+//    private class EndlessScrollList extends RecyclerView.OnScrollListener {
+//        int pastVisibleItems, visibleItems, totalItems;
+//
+//        @Override
+//        public void onScrolled(RecyclerView view, int dx, int dy) {
+//            if (dy > 0) {
+//                visibleItems = mLayoutManager.getChildCount();
+//                totalItems = mLayoutManager.getItemCount();
+//                int[] firstVisiblePositions = new int[2];
+//                pastVisibleItems = mLayoutManager.findFirstVisibleItemPositions(firstVisiblePositions)[0];
+//
+//                Log.d("VisibleItems=", "" + visibleItems + " pastVisible=" + pastVisibleItems + " total=" + totalItems);
+//
+//                if (mLoading && mPage <= MAX_REQUEST_ALLOWED) {
+//                    if ((visibleItems + pastVisibleItems) >= totalItems) {
+//                        mLoading = false;
+//                        mPage++;
+//                        mLastPosition = pastVisibleItems;
+//                        progressDialog.show();
+//                        mRecyclerView.removeOnScrollListener(scrollList);
+//                        loadRecipeData(mSortOrder, String.valueOf(mPage));
+//                    }
+//                }
+//            }
+//            Log.d("Total recipes=", "" + mAllRecipes.length);
+//        }
+//    }
 }
