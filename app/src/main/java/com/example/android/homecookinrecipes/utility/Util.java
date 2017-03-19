@@ -3,12 +3,21 @@ package com.example.android.homecookinrecipes.utility;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.example.android.homecookinrecipes.data.Recipe;
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.sync.ImmediateSyncService;
+import com.example.android.homecookinrecipes.sync.RecipeJobService;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.Driver;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.Trigger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.in;
 
@@ -36,24 +46,55 @@ public class Util {
     static final String API_KEY = "500bdd2ed4423c9e460ca447d1b194e2";
     static final String FOOD_URL = "http://food2fork.com/api/search";
 
-    public static Recipe[] addRecipeArrays(Recipe[] old, Recipe[] fresh){
+    static final int SYNC_INTERVAL_HOURS = 48;
+    static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(SYNC_INTERVAL_HOURS);
 
-        if(old == null)
-            return fresh;
+    static boolean sIntialized;
 
-        Recipe[] all = new Recipe[old.length+fresh.length];
+   public static void scheduleFirebaseJobDispatcherSycn(@NonNull final Context context){
+       Driver driver = new GooglePlayDriver(context);
+       FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
 
-        int i;
-        for(i=0; i< old.length; i++){
-            all[i] = old[i];
-        }
+       Job syncRecipeJob = dispatcher.newJobBuilder()
+               .setService(RecipeJobService.class)
+               .setTag("recipe-sync")
+               .setConstraints(Constraint.ON_ANY_NETWORK)
+               .setLifetime(Lifetime.FOREVER)
+               .setRecurring(true)
+               .setTrigger(Trigger.executionWindow(SYNC_INTERVAL_SECONDS, SYNC_INTERVAL_SECONDS*2))
+               .setReplaceCurrent(true)
+               .build();
 
-        for(int j=0; j< fresh.length; j++){
-            all[i] = fresh[j];
-            i++;
-        }
-        return all;
-    }
+       dispatcher.schedule(syncRecipeJob);
+   }
+
+   public synchronized static void initialize(@NonNull final Context context){
+       if (sIntialized) return;
+       sIntialized = true;
+
+       scheduleFirebaseJobDispatcherSycn(context);
+
+       Thread checkForEmpty = new Thread(new Runnable() {
+           @Override
+           public void run() {
+
+               Cursor cursor = context.getContentResolver().query(
+                       RecipeContract.RecipeEntry.CONTENT_URI,
+                       null,
+                       null,
+                       null,
+                       null
+               );
+
+               if(cursor == null || cursor.getCount()==0)
+                   startImmediateSync(context);
+
+               cursor.close();
+           }
+       });
+
+       checkForEmpty.start();
+   }
 
     public static URL buildUrlWithPageNum(int page){
         Uri uri = Uri.parse(FOOD_URL).buildUpon()

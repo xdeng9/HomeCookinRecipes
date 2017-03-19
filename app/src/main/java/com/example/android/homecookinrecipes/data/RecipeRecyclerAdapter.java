@@ -2,6 +2,7 @@ package com.example.android.homecookinrecipes.data;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.Image;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.android.homecookinrecipes.DetailActivity;
 import com.example.android.homecookinrecipes.R;
 
+import static android.R.attr.data;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
@@ -24,12 +26,11 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
 
-    private Recipe[] mRecipes;
     private Context mContext;
+    private Cursor mCursor;
 
-    public RecipeRecyclerAdapter(Context context, Recipe[] recipes) {
+    public RecipeRecyclerAdapter(Context context) {
         mContext = context;
-        mRecipes = recipes;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,19 +57,20 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.recipeTitle.setText(mRecipes[position].getTitle());
-        holder.recipePublisher.setText(mRecipes[position].getPublisher());
-        float rating = (float) mRecipes[position].getRating();
+        mCursor.moveToPosition(position);
+        holder.recipeTitle.setText(mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_TITLE)));
+        holder.recipePublisher.setText(mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_PUBLISHER)));
+        float rating = (float) mCursor.getDouble(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));
         holder.recipeRating.setRating(rating / 20f);
 
         Glide.with(mContext)
-                .load(mRecipes[position].getImage_url())
+                .load(mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL)))
                 .fitCenter()
                 .into(holder.recipeImage);
 
-        holder.recipeImage.setOnClickListener(new View.OnClickListener(){
+        holder.recipeImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailActivity.class);
                 mContext.startActivity(intent);
             }
@@ -77,10 +79,15 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     @Override
     public int getItemCount() {
-        return mRecipes.length;
+        if (mCursor == null)
+            return 0;
+        else
+            return mCursor.getCount();
     }
 
-    public Recipe[] getRecipes(){
-        return mRecipes;
+    public void swapCursor(Cursor cursor){
+        mCursor = cursor;
+        notifyDataSetChanged();
     }
+
 }

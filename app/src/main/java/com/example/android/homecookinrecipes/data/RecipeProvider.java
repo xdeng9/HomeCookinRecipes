@@ -72,6 +72,8 @@ public class RecipeProvider extends ContentProvider {
             }
             default: throw new UnsupportedOperationException("Unkown uri: "+ uri);
         }
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -119,6 +121,10 @@ public class RecipeProvider extends ContentProvider {
             numOfRowsDeleted = db.delete(RecipeContract.RecipeEntry.TABLE_NAME, sSelectionWithId, new String[]{id});
         }else{
             numOfRowsDeleted = db.delete(RecipeContract.RecipeEntry.TABLE_NAME, sFavSelection, new String[]{"0"});
+        }
+
+        if(numOfRowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
         }
 
         return numOfRowsDeleted;
