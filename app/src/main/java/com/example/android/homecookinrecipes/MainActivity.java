@@ -1,12 +1,10 @@
 package com.example.android.homecookinrecipes;
 
-import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +15,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView mRecyclerView;
     private RecipeRecyclerAdapter mAdapter;
-    ProgressDialog progressDialog;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +62,8 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new RecipeRecyclerAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle("Fetching recipes");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        showLoading();
 
         getSupportLoaderManager().initLoader(101, null, this);
 
@@ -121,13 +117,19 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
         if(data.getCount() != 0){
-            progressDialog.dismiss();
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    private void showLoading(){
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
 }

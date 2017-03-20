@@ -27,6 +27,7 @@ public class RecipeDbHelper extends SQLiteOpenHelper{
                         RecipeContract.RecipeEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_SOURCE_URL + " TEXT NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_RATING + " REAL NOT NULL, " +
+                        RecipeContract.RecipeEntry.COLUMN_SORT + " TEXT NOT NULL, " +
                         RecipeContract.RecipeEntry.COLUMN_ISFAV + " INTEGER NOT NULL)";
 
         sqLiteDatabase.execSQL(SQL_CREATE_RECIPE_TABLE);

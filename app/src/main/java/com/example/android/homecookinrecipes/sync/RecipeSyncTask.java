@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class RecipeSyncTask {
 
-    private static final int MAX_API_REQUEST = 4;
+    private static final int MAX_API_REQUEST = 2;
     private static final String TAG = RecipeSyncTask.class.getSimpleName();
 
     synchronized public static void syncRecipe(Context context){
@@ -29,16 +29,24 @@ public class RecipeSyncTask {
             resolver.delete(RecipeContract.RecipeEntry.CONTENT_URI, null, null);
 
             for(int i=1; i<= MAX_API_REQUEST; i++){
-                URL url = Util.buildUrlWithPageNum(i);
-                Log.d(TAG, url.toString());
+                URL url = Util.buildUrlWithPageNum(i, "r");
                 String jsonResponse = Util.getJsonResponse(url);
-                Log.d(TAG, jsonResponse);
-                ContentValues[] values = Util.getContentValues(jsonResponse);
+                ContentValues[] values = Util.getContentValues(jsonResponse, "r");
 
                 if(values !=null && values.length != 0){
                     resolver.bulkInsert(RecipeContract.RecipeEntry.CONTENT_URI, values);
                 }
+            }
+            for(int j=1; j<= MAX_API_REQUEST; j++){
+                URL url = Util.buildUrlWithPageNum(j, "t");
+                Log.d(TAG, url.toString());
+                String jsonResponse = Util.getJsonResponse(url);
+                Log.d(TAG, jsonResponse);
+                ContentValues[] values = Util.getContentValues(jsonResponse, "t");
 
+                if(values !=null && values.length != 0){
+                    resolver.bulkInsert(RecipeContract.RecipeEntry.CONTENT_URI, values);
+                }
             }
 
         } catch (Exception e){

@@ -18,12 +18,13 @@ public class RecipeContract {
 
         public static final String TABLE_NAME = "recipe";
 
+        public static final String COLUMN_RECIPE_ID = "recipe_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_PUBLISHER = "publisher";
         public static final String COLUMN_IMAGE_URL = "image_url";
         public static final String COLUMN_SOURCE_URL = "source_url";
-        public static final String COLUMN_RECIPE_ID = "recipe_id";
         public static final String COLUMN_RATING = "rating";
+        public static final String COLUMN_SORT = "sort_by";
         public static final String COLUMN_ISFAV = "is_fav";
 
     }

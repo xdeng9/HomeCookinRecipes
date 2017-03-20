@@ -96,10 +96,10 @@ public class Util {
        checkForEmpty.start();
    }
 
-    public static URL buildUrlWithPageNum(int page){
+    public static URL buildUrlWithPageNum(int page, String sortOrder){
         Uri uri = Uri.parse(FOOD_URL).buildUpon()
                 .appendQueryParameter(KEY_PARAM, API_KEY)
-                .appendQueryParameter(SORT_PARAM, "r")
+                .appendQueryParameter(SORT_PARAM, sortOrder)
                 .appendQueryParameter(PAGE_PARAM, ""+page).build();
 
         try{
@@ -131,7 +131,7 @@ public class Util {
         return response;
     }
 
-    public static ContentValues[] getContentValues(String jsonStr) throws JSONException{
+    public static ContentValues[] getContentValues(String jsonStr, String sortOrder) throws JSONException{
 
         JSONObject jsonObject = new JSONObject(jsonStr);
         JSONArray jsonArray = jsonObject.getJSONArray("recipes");
@@ -155,6 +155,7 @@ public class Util {
             row.put(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL, image_url);
             row.put(RecipeContract.RecipeEntry.COLUMN_SOURCE_URL, source_url);
             row.put(RecipeContract.RecipeEntry.COLUMN_RATING, rating);
+            row.put(RecipeContract.RecipeEntry.COLUMN_SORT, sortOrder);
             row.put(RecipeContract.RecipeEntry.COLUMN_ISFAV, isFav);
 
             recipeContentValues[i] = row;
