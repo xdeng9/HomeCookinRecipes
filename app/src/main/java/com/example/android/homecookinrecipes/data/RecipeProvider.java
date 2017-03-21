@@ -41,7 +41,8 @@ public class RecipeProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection,
+                        @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
         Cursor cursor;
 
@@ -49,12 +50,12 @@ public class RecipeProvider extends ContentProvider {
             case RECIPE: {
                 cursor = mDbHelper.getReadableDatabase().query(
                         RecipeContract.RecipeEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
                         null,
                         null,
-                        null,
-                        null,
-                        null,
-                        null
+                        sortOrder
                 );
                 break;
             }
@@ -66,13 +67,12 @@ public class RecipeProvider extends ContentProvider {
                         new String[]{uri.getPathSegments().get(1)},
                         null,
                         null,
-                        null
+                        sortOrder
                 );
                 break;
             }
             default: throw new UnsupportedOperationException("Unkown uri: "+ uri);
         }
-
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
@@ -87,7 +87,8 @@ public class RecipeProvider extends ContentProvider {
                 db.beginTransaction();
                 try{
                     for(ContentValues contentValue : values){
-                        long _id = db.insertWithOnConflict(RecipeContract.RecipeEntry.TABLE_NAME, null, contentValue, SQLiteDatabase.CONFLICT_IGNORE);
+                        long _id = db.insertWithOnConflict(RecipeContract.RecipeEntry.TABLE_NAME, null,
+                                contentValue, SQLiteDatabase.CONFLICT_IGNORE);
                         if(_id != -1){
                             rowsInserted++;
                         }
@@ -101,7 +102,6 @@ public class RecipeProvider extends ContentProvider {
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
         }
-
         return rowsInserted;
     }
 
@@ -126,7 +126,6 @@ public class RecipeProvider extends ContentProvider {
         if(numOfRowsDeleted != 0){
             getContext().getContentResolver().notifyChange(uri, null);
         }
-
         return numOfRowsDeleted;
     }
 

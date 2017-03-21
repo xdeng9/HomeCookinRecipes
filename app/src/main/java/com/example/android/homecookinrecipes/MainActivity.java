@@ -2,9 +2,9 @@ package com.example.android.homecookinrecipes;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecipeRecyclerAdapter mAdapter;
     private ProgressBar mProgressBar;
+    private String mSelection, mSelectionArgs, mSortOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +63,15 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RecipeRecyclerAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
+        mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";;
+        mSelectionArgs = "0";
+        mSortOrder = "RANDOM() LIMIT 100";
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         showLoading();
 
-        getSupportLoaderManager().initLoader(101, null, this);
-
-        Util.startImmediateSync(this);
+        getLoaderManager().initLoader(0, null, this);
+        Util.initialize(this);
 
     }
 
@@ -86,16 +90,18 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_trending) {
+       if (id == R.id.nav_trending) {
+            mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
+            mSelectionArgs = "t";
 
         } else if (id == R.id.nav_top_rated) {
-
+           mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
+           mSelectionArgs = "r";
         } else if (id == R.id.nav_favorite) {
-
+           mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
+           mSelectionArgs = "1";
         }
-
+        getLoaderManager().restartLoader(0, null, this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -103,13 +109,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
         return new CursorLoader(
                 this,
                 RecipeContract.RecipeEntry.CONTENT_URI,
                 null,
-                null,
-                null,
-                null
+                mSelection,
+                new String[]{mSelectionArgs},
+                mSortOrder
         );
     }
 
