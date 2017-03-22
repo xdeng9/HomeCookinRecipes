@@ -18,17 +18,19 @@ import java.net.URL;
 
 public class RecipeSyncTask {
 
-    private static final int MAX_API_REQUEST = 2;
+    private static final int MAX_API_REQUEST = 5;
     private static final String TAG = RecipeSyncTask.class.getSimpleName();
+    private static boolean loaded;
 
     synchronized public static void syncRecipe(Context context){
 
         try{
-
+            loaded = false;
             ContentResolver resolver = context.getContentResolver();
             resolver.delete(RecipeContract.RecipeEntry.CONTENT_URI, null, null);
 
-            for(int i=1; i<= MAX_API_REQUEST; i++){
+            int i, j;
+            for(i=1; i<= MAX_API_REQUEST; i++){
                 URL url = Util.buildUrlWithPageNum(i, "r");
                 String jsonResponse = Util.getJsonResponse(url);
                 ContentValues[] values = Util.getContentValues(jsonResponse, "r");
@@ -37,7 +39,7 @@ public class RecipeSyncTask {
                     resolver.bulkInsert(RecipeContract.RecipeEntry.CONTENT_URI, values);
                 }
             }
-            for(int j=1; j<= MAX_API_REQUEST; j++){
+            for(j=1; j<= MAX_API_REQUEST; j++){
                 URL url = Util.buildUrlWithPageNum(j, "t");
                 Log.d(TAG, url.toString());
                 String jsonResponse = Util.getJsonResponse(url);
@@ -48,9 +50,15 @@ public class RecipeSyncTask {
                     resolver.bulkInsert(RecipeContract.RecipeEntry.CONTENT_URI, values);
                 }
             }
-
+            if((i+j) >= MAX_API_REQUEST*2){
+                loaded = true;
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static boolean isLoaded(){
+        return loaded;
     }
 }

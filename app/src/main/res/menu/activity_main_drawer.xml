@@ -18,6 +18,11 @@
             android:id ="@+id/nav_spinner"
             android:icon="@drawable/ic_recipe_spinner"
             android:title="Recipe Spinner" />
+
+        <item
+            android:id ="@+id/nav_recommended"
+            android:icon="@drawable/ic_recommended"
+            android:title="Recommended" />
     </group>
 
 </menu>

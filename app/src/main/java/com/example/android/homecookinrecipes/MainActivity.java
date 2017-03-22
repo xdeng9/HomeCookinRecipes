@@ -17,14 +17,18 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
+import com.example.android.homecookinrecipes.sync.RecipeSyncTask;
 import com.example.android.homecookinrecipes.utility.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+
+import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecipeRecyclerAdapter mAdapter;
     private ProgressBar mProgressBar;
+    private TextView mTextView;
     private String mSelection, mSelectionArgs, mSortOrder;
 
     @Override
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mTextView = (TextView) findViewById(R.id.empty_view);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -100,7 +106,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_favorite) {
            mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
            mSelectionArgs = "1";
-        }
+        } else if (id == R.id.nav_recommended){
+           mSelection = RecipeContract.RecipeEntry.COLUMN_RATING + " = ?";
+           mSelectionArgs = "100";
+       }
         getLoaderManager().restartLoader(0, null, this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -123,9 +132,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
-        if(data.getCount() != 0){
+        mTextView.setVisibility(View.INVISIBLE);
+        if(data.getCount() != 0 && !mSelectionArgs.equals("0")){
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
+            Log.d("mSelectionArgs!=0",""+data.getCount());
+        } else if(mSelectionArgs.equals("0") && RecipeSyncTask.isLoaded()){
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            Log.d("mSelectionArgs=0", "dataRows="+data.getCount());
+        } else if(mSelectionArgs.equals("1") && data.getCount() == 0){
+            mRecyclerView.setVisibility(View.INVISIBLE);
+            mTextView.setVisibility(View.VISIBLE);
+            Log.d("mSelectionArgs=1",""+data.getCount());
         }
     }
 
