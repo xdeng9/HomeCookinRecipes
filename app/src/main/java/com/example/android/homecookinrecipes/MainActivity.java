@@ -1,5 +1,6 @@
 package com.example.android.homecookinrecipes;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.LoaderManager;
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_recommended){
            mSelection = RecipeContract.RecipeEntry.COLUMN_RATING + " = ?";
            mSelectionArgs = "100";
+       } else if (id == R.id.nav_spinner){
+           Intent intent = new Intent(this, SpinnerActivity.class);
+           startActivity(intent);
        }
         getLoaderManager().restartLoader(0, null, this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -133,18 +137,12 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
         mTextView.setVisibility(View.INVISIBLE);
-        if(data.getCount() != 0 && !mSelectionArgs.equals("0")){
+        if(data.getCount() != 0 ){
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
-            Log.d("mSelectionArgs!=0",""+data.getCount());
-        } else if(mSelectionArgs.equals("0") && RecipeSyncTask.isLoaded()){
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-            Log.d("mSelectionArgs=0", "dataRows="+data.getCount());
-        } else if(mSelectionArgs.equals("1") && data.getCount() == 0){
+        } else if(data.getCount() == 0){
             mRecyclerView.setVisibility(View.INVISIBLE);
             mTextView.setVisibility(View.VISIBLE);
-            Log.d("mSelectionArgs=1",""+data.getCount());
         }
     }
 

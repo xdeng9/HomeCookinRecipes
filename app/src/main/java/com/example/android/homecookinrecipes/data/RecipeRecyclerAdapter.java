@@ -59,20 +59,31 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.recipeTitle.setText(mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_TITLE)));
-        holder.recipePublisher.setText(mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_PUBLISHER)));
-        float rating = (float) mCursor.getDouble(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));
+
+        String id = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RECIPE_ID));
+        final String title = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_TITLE));
+        final String publisher = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_PUBLISHER));
+        final String imageUrl = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL));
+        final String sourceUrl = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_SOURCE_URL));
+        final double recipeRating = mCursor.getDouble(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));;
+
+        holder.recipeTitle.setText(title);
+        holder.recipePublisher.setText(publisher);
+        float rating = (float) recipeRating;
         holder.recipeRating.setRating(rating / 20f);
 
         Glide.with(mContext)
-                .load(mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL)))
+                .load(imageUrl)
                 .fitCenter()
                 .into(holder.recipeImage);
+
+        final Recipe recipe = new Recipe(id, title, publisher, imageUrl, sourceUrl, recipeRating);
 
         holder.recipeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("key", recipe);
                 mContext.startActivity(intent);
             }
         });

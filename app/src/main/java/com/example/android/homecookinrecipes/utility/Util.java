@@ -168,4 +168,5 @@ public class Util {
         Intent intent = new Intent(context, ImmediateSyncService.class);
         context.startService(intent);
     }
+
 }
