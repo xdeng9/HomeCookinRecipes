@@ -36,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
 
         MenuItem item = menu.findItem(R.id.share_item);
@@ -44,9 +44,21 @@ public class DetailActivity extends AppCompatActivity {
 
         return true;
     }
-    
+
     private void actionBarSetup(String title) {
-            ActionBar ab = getSupportActionBar();
-            ab.setTitle(title);
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle(title);
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
