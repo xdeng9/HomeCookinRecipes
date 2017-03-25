@@ -67,9 +67,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RecipeRecyclerAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        //mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
         mSelection = null;
-        //mSelectionArgs = "0";
         mSelectionArgs = null;
         mSortOrder = "RANDOM() LIMIT 100";
 
@@ -77,8 +75,7 @@ public class MainActivity extends AppCompatActivity
         showLoading();
 
         getLoaderManager().initLoader(0, null, this);
-        Util.initialize(this);
-
+        //Util.initialize(this);
     }
 
     @Override
