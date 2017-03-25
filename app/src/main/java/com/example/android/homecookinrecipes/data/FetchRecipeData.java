@@ -121,7 +121,7 @@ public class FetchRecipeData extends AsyncTask<String, Void, Recipe[]>{
             double rating = jsonRecipe.getDouble("social_rank");
 
             recipes[i] = new Recipe(title, publisher, image_url,
-                    source_url, recipeId, rating);
+                    source_url, recipeId, rating, 0);
         }
         return recipes;
     }

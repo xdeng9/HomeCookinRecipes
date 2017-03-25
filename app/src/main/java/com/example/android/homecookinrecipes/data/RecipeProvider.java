@@ -9,10 +9,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**
- * Created by administrator on 3/15/17.
- */
-
 public class RecipeProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -108,7 +104,7 @@ public class RecipeProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
+        throw new RuntimeException("Not implementing insert.");
     }
 
     @Override
@@ -137,7 +133,18 @@ public class RecipeProvider extends ContentProvider {
 
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        throw new RuntimeException("Not implementing update.");
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues,
+                      @Nullable String s, @Nullable String[] strings) {
+        int rowsUpdated;
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        if(sUriMatcher.match(uri) == RECIPE_WITH_ID){
+            String id = uri.getPathSegments().get(1);
+            rowsUpdated = db.update(RecipeContract.RecipeEntry.TABLE_NAME, contentValues, sSelectionWithId,
+                    new String[]{id});
+        } else {
+            rowsUpdated = db.update(RecipeContract.RecipeEntry.TABLE_NAME, contentValues, s, strings);
+        }
+        return rowsUpdated;
     }
 }

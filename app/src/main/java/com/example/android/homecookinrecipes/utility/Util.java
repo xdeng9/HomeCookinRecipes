@@ -32,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import static android.R.attr.id;
 import static java.lang.System.in;
 
 /**
@@ -49,7 +50,7 @@ public class Util {
     static final int SYNC_INTERVAL_HOURS = 48;
     static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(SYNC_INTERVAL_HOURS);
 
-    static boolean sIntialized;
+    public static boolean sIntialized;
 
    public static void scheduleFirebaseJobDispatcherSycn(@NonNull final Context context){
        Driver driver = new GooglePlayDriver(context);
@@ -167,6 +168,24 @@ public class Util {
     public static void startImmediateSync(@NonNull final Context context){
         Intent intent = new Intent(context, ImmediateSyncService.class);
         context.startService(intent);
+    }
+
+    public static void updateFavRecipe(final Context context, String id, int isFav){
+        final Uri uri = RecipeContract.RecipeEntry.buildRecipeUri(Long.parseLong(id));
+        final ContentValues value = new ContentValues();
+        value.put(RecipeContract.RecipeEntry.COLUMN_ISFAV, isFav);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                context.getContentResolver().update(
+                        uri,
+                        value,
+                        null,
+                        null
+                );
+            }
+        });
+        thread.start();
     }
 
 }

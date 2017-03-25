@@ -3,10 +3,7 @@ package com.example.android.homecookinrecipes.data;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.Image;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.android.homecookinrecipes.DetailActivity;
 import com.example.android.homecookinrecipes.R;
-
-import static android.R.attr.data;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-
-/**
- * Created by administrator on 3/5/17.
- */
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
 
@@ -66,6 +56,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         final String imageUrl = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL));
         final String sourceUrl = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_SOURCE_URL));
         final double recipeRating = mCursor.getDouble(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));;
+        final int fav = mCursor.getInt(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_ISFAV));
 
         holder.recipeTitle.setText(title);
         holder.recipePublisher.setText(publisher);
@@ -77,7 +68,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
                 .fitCenter()
                 .into(holder.recipeImage);
 
-        final Recipe recipe = new Recipe(id, title, publisher, imageUrl, sourceUrl, recipeRating);
+        final Recipe recipe = new Recipe(id, title, publisher, imageUrl, sourceUrl, recipeRating, fav);
 
         holder.recipeImage.setOnClickListener(new View.OnClickListener() {
             @Override

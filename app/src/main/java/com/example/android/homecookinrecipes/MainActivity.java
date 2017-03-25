@@ -14,22 +14,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
-import com.example.android.homecookinrecipes.sync.RecipeSyncTask;
 import com.example.android.homecookinrecipes.utility.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-
-import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -100,7 +95,6 @@ public class MainActivity extends AppCompatActivity
        if (id == R.id.nav_trending) {
             mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
             mSelectionArgs = "t";
-
         } else if (id == R.id.nav_top_rated) {
            mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
            mSelectionArgs = "r";
@@ -140,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         if(data.getCount() != 0 ){
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
-        } else if(data.getCount() == 0){
+        } else if(data.getCount() == 0 && Util.sIntialized){
             mRecyclerView.setVisibility(View.INVISIBLE);
             mTextView.setVisibility(View.VISIBLE);
         }

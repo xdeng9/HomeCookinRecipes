@@ -13,10 +13,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.Recipe;
+import com.example.android.homecookinrecipes.utility.Util;
 
 public class DetailActivity extends AppCompatActivity {
+
+    private ShareActionProvider mShareActionProvider;
+    private Recipe mDetailRecipe;
+    private boolean mIsFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +32,34 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
 
-        Recipe detailRecipe = intent.getExtras().getParcelable("key");
-        actionBarSetup(detailRecipe.getTitle());
+        mDetailRecipe = intent.getExtras().getParcelable("key");
+        int isFav = mDetailRecipe.getFav();
+        mIsFav = isFav==0 ? false : true;
+        actionBarSetup(mDetailRecipe.getTitle());
 
         WebView webView = (WebView) findViewById(R.id.web_view);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(detailRecipe.getSource_url());
+        webView.loadUrl(mDetailRecipe.getSource_url());
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
-
         MenuItem item = menu.findItem(R.id.share_item);
-        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareIntent(getShareIntent());
         return true;
     }
 
-    private void actionBarSetup(String title) {
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle(title);
-        ab.setDisplayHomeAsUpEnabled(true);
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem fav = menu.findItem(R.id.fav_item);
+        MenuItem unfav = menu.findItem(R.id.unfav_item);
+
+        fav.setVisible(mIsFav);
+        unfav.setVisible(!mIsFav);
+        return true;
     }
 
     @Override
@@ -57,8 +68,48 @@ public class DetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
+            case R.id.fav_item:
+                mIsFav = false;
+                invalidateOptionsMenu();
+                Util.updateFavRecipe(this, mDetailRecipe.getRecipeId(), 0);
+                displayToast();
+                return true;
+            case R.id.unfav_item:
+                mIsFav = true;
+                invalidateOptionsMenu();
+                Util.updateFavRecipe(this, mDetailRecipe.getRecipeId(), 1);
+                displayToast();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void displayToast(){
+        if(mIsFav){
+            Toast.makeText(this, "Recipe added to favorites.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Recipe removed from favorites.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    private Intent getShareIntent(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, mDetailRecipe.getTitle());
+        intent.putExtra(Intent.EXTRA_TEXT,mDetailRecipe.getSource_url());
+        return intent;
+    }
+
+    private void actionBarSetup(String title) {
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle(title);
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 }

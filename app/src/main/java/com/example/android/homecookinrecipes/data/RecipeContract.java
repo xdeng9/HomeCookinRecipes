@@ -1,5 +1,6 @@
 package com.example.android.homecookinrecipes.data;
 
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -27,5 +28,8 @@ public class RecipeContract {
         public static final String COLUMN_SORT = "sort_by";
         public static final String COLUMN_ISFAV = "is_fav";
 
+        public static final Uri buildRecipeUri(long id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 }

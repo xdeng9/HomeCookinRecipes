@@ -3,22 +3,21 @@ package com.example.android.homecookinrecipes.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by administrator on 3/1/17.
- */
-
 public class Recipe implements Parcelable{
 
     private String recipeId, title, publisher, image_url, source_url;
     private double rating;
+    private int fav;
 
-    public Recipe (String recipeId, String title, String publisher, String image_url, String source_url, double rating){
+    public Recipe (String recipeId, String title, String publisher,
+                   String image_url, String source_url, double rating, int fav){
         this.recipeId = recipeId;
         this.title = title;
         this.publisher = publisher;
         this.image_url = image_url;
         this.source_url = source_url;
         this.rating = rating;
+        this.fav = fav;
     }
 
     public String getRecipeId(){
@@ -45,6 +44,10 @@ public class Recipe implements Parcelable{
         return rating;
     }
 
+    public int getFav() {
+        return fav;
+    }
+
     protected Recipe(Parcel in) {
         recipeId = in.readString();
         title = in.readString();
@@ -52,6 +55,7 @@ public class Recipe implements Parcelable{
         image_url = in.readString();
         source_url = in.readString();
         rating = in.readDouble();
+        fav = in.readInt();
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -79,5 +83,6 @@ public class Recipe implements Parcelable{
         parcel.writeString(image_url);
         parcel.writeString(source_url);
         parcel.writeDouble(rating);
+        parcel.writeInt(fav);
     }
 }
