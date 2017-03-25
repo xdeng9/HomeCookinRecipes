@@ -1,12 +1,7 @@
 package com.example.android.homecookinrecipes.data;
 
-import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
-
-/**
- * Created by administrator on 3/14/17.
- */
 
 public class RecipeContract {
 
@@ -28,8 +23,9 @@ public class RecipeContract {
         public static final String COLUMN_SORT = "sort_by";
         public static final String COLUMN_ISFAV = "is_fav";
 
-        public static final Uri buildRecipeUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);
+        public static final Uri buildRecipeUri(String id){
+            String s = CONTENT_URI.toString() +"/"+id;
+            return Uri.parse(s);
         }
     }
 }

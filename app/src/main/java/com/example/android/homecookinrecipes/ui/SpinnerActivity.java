@@ -1,4 +1,4 @@
-package com.example.android.homecookinrecipes;
+package com.example.android.homecookinrecipes.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

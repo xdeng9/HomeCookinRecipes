@@ -12,7 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.android.homecookinrecipes.DetailActivity;
+import com.example.android.homecookinrecipes.ui.DetailActivity;
 import com.example.android.homecookinrecipes.R;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {

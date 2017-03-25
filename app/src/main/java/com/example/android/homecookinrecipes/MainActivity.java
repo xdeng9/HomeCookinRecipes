@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
+import com.example.android.homecookinrecipes.ui.SpinnerActivity;
 import com.example.android.homecookinrecipes.utility.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity
     private RecipeRecyclerAdapter mAdapter;
     private ProgressBar mProgressBar;
     private TextView mTextView;
-    private String mSelection, mSelectionArgs, mSortOrder;
+    private String mSelection, mSortOrder;
+    private String[] mSelectionArgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,10 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RecipeRecyclerAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";;
-        mSelectionArgs = "0";
+        //mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
+        mSelection = null;
+        //mSelectionArgs = "0";
+        mSelectionArgs = null;
         mSortOrder = "RANDOM() LIMIT 100";
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -94,16 +98,16 @@ public class MainActivity extends AppCompatActivity
 
        if (id == R.id.nav_trending) {
             mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
-            mSelectionArgs = "t";
+            mSelectionArgs = new String[]{"t"};
         } else if (id == R.id.nav_top_rated) {
            mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
-           mSelectionArgs = "r";
+           mSelectionArgs = new String[]{"r"};
         } else if (id == R.id.nav_favorite) {
            mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
-           mSelectionArgs = "1";
+           mSelectionArgs = new String[]{"1"};
         } else if (id == R.id.nav_recommended){
            mSelection = RecipeContract.RecipeEntry.COLUMN_RATING + " = ?";
-           mSelectionArgs = "100";
+           mSelectionArgs = new String[]{"100"};
        } else if (id == R.id.nav_spinner){
            Intent intent = new Intent(this, SpinnerActivity.class);
            startActivity(intent);
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity
                 RecipeContract.RecipeEntry.CONTENT_URI,
                 null,
                 mSelection,
-                new String[]{mSelectionArgs},
+                mSelectionArgs,
                 mSortOrder
         );
     }
@@ -134,9 +138,11 @@ public class MainActivity extends AppCompatActivity
         if(data.getCount() != 0 ){
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
-        } else if(data.getCount() == 0 && Util.sIntialized){
-            mRecyclerView.setVisibility(View.INVISIBLE);
-            mTextView.setVisibility(View.VISIBLE);
+        } else if(data.getCount() == 0){
+            if(mSelection!=null && mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")){
+                mRecyclerView.setVisibility(View.INVISIBLE);
+                mTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 

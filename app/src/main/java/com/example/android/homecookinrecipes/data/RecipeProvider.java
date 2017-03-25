@@ -25,7 +25,7 @@ public class RecipeProvider extends ContentProvider {
         String authority = RecipeContract.CONTENT_AUTHORITY;
 
         uriMatcher.addURI(authority, RecipeContract.PATH, RECIPE);
-        uriMatcher.addURI(authority, RecipeContract.PATH + "/#", RECIPE_WITH_ID);
+        uriMatcher.addURI(authority, RecipeContract.PATH + "/*", RECIPE_WITH_ID);
         return uriMatcher;
     }
 

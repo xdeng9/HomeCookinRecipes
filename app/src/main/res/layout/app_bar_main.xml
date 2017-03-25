@@ -52,6 +52,6 @@
         android:text="No results found."
         android:layout_gravity="center"
         android:visibility="gone"
-        android:textSize="28dp"/>
+        android:textSize="@dimen/empty_view_text_size"/>
 
 </android.support.design.widget.CoordinatorLayout>

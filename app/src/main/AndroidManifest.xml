@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".ui.DetailActivity"
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -46,7 +46,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".SpinnerActivity"></activity>
+        <activity android:name=".ui.SpinnerActivity"></activity>
     </application>
 
 </manifest>

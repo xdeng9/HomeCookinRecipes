@@ -1,4 +1,4 @@
-package com.example.android.homecookinrecipes;
+package com.example.android.homecookinrecipes.ui;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -11,10 +11,14 @@ import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.android.homecookinrecipes.R;
 import com.example.android.homecookinrecipes.data.Recipe;
 import com.example.android.homecookinrecipes.utility.Util;
 
@@ -37,8 +41,27 @@ public class DetailActivity extends AppCompatActivity {
         mIsFav = isFav==0 ? false : true;
         actionBarSetup(mDetailRecipe.getTitle());
 
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int progress){
+                progressBar.setProgress(progress);
+                if(progress == 100){
+                    progressBar.setVisibility(View.GONE);
+                } else{
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url){
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(mDetailRecipe.getSource_url());
 
     }

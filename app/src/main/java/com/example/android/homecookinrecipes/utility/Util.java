@@ -35,10 +35,6 @@ import java.util.concurrent.TimeUnit;
 import static android.R.attr.id;
 import static java.lang.System.in;
 
-/**
- * Created by administrator on 3/7/17.
- */
-
 public class Util {
 
     static final String SORT_PARAM = "sort";
@@ -171,7 +167,7 @@ public class Util {
     }
 
     public static void updateFavRecipe(final Context context, String id, int isFav){
-        final Uri uri = RecipeContract.RecipeEntry.buildRecipeUri(Long.parseLong(id));
+        final Uri uri = RecipeContract.RecipeEntry.buildRecipeUri(id);
         final ContentValues value = new ContentValues();
         value.put(RecipeContract.RecipeEntry.COLUMN_ISFAV, isFav);
         Thread thread = new Thread(new Runnable() {
