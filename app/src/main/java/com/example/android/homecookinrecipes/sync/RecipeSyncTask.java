@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class RecipeSyncTask {
 
-    private static final int MAX_API_REQUEST = 5;
+    private static final int MAX_API_REQUEST = 10;
 
     synchronized public static void syncRecipe(Context context) {
 

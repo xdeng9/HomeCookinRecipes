@@ -1,5 +1,7 @@
 package com.example.android.homecookinrecipes;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,12 +14,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
@@ -29,7 +34,7 @@ import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView mRecyclerView;
     private RecipeRecyclerAdapter mAdapter;
@@ -73,9 +78,39 @@ public class MainActivity extends AppCompatActivity
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         showLoading();
-
         getLoaderManager().initLoader(0, null, this);
-        //Util.initialize(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                processQuery(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String text) {
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void processQuery(String query) {
+        mSelection = RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?";
+        mSelectionArgs = new String[]{"%"+query+"%"};
+        showLoading();
+        reload();
     }
 
     @Override
@@ -93,23 +128,24 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-       if (id == R.id.nav_trending) {
+        if (id == R.id.nav_trending) {
             mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
             mSelectionArgs = new String[]{"t"};
         } else if (id == R.id.nav_top_rated) {
-           mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
-           mSelectionArgs = new String[]{"r"};
+            mSelection = RecipeContract.RecipeEntry.COLUMN_SORT + " =?";
+            mSelectionArgs = new String[]{"r"};
         } else if (id == R.id.nav_favorite) {
-           mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
-           mSelectionArgs = new String[]{"1"};
-        } else if (id == R.id.nav_recommended){
-           mSelection = RecipeContract.RecipeEntry.COLUMN_RATING + " = ?";
-           mSelectionArgs = new String[]{"100"};
-       } else if (id == R.id.nav_spinner){
-           Intent intent = new Intent(this, SpinnerActivity.class);
-           startActivity(intent);
-       }
-        getLoaderManager().restartLoader(0, null, this);
+            mSelection = RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?";
+            mSelectionArgs = new String[]{"1"};
+        } else if (id == R.id.nav_recommended) {
+            mSelection = RecipeContract.RecipeEntry.COLUMN_RATING + " = ?";
+            mSelectionArgs = new String[]{"100"};
+        } else if (id == R.id.nav_spinner) {
+            Intent intent = new Intent(this, SpinnerActivity.class);
+            startActivity(intent);
+        }
+        showLoading();
+        reload();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -132,12 +168,14 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
         mTextView.setVisibility(View.INVISIBLE);
-        if(data.getCount() != 0 ){
+        if (data.getCount() != 0) {
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
-        } else if(data.getCount() == 0){
-            if(mSelection!=null && mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")){
+        } else if (data.getCount() == 0) {
+            if (mSelection != null && (mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")
+            || mSelection.equals(RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?"))) {
                 mRecyclerView.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.INVISIBLE);
                 mTextView.setVisibility(View.VISIBLE);
             }
         }
@@ -148,9 +186,13 @@ public class MainActivity extends AppCompatActivity
         mAdapter.swapCursor(null);
     }
 
-    private void showLoading(){
+    private void showLoading() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void reload() {
+        getLoaderManager().restartLoader(0, null, this);
     }
 
 }
