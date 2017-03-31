@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity
     private void processQuery(String query) {
         mSelection = RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?";
         mSelectionArgs = new String[]{"%"+query+"%"};
-        showLoading();
         reload();
     }
 
@@ -144,7 +143,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, SpinnerActivity.class);
             startActivity(intent);
         }
-        showLoading();
         reload();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -192,6 +190,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void reload() {
+        showLoading();
         getLoaderManager().restartLoader(0, null, this);
     }
 

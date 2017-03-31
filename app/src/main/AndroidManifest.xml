@@ -14,7 +14,8 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data android:name="android.app.searchable"
+            <meta-data
+                android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity
@@ -42,13 +43,26 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.SpinnerActivity" />
-        <activity android:name=".ui.SplashScreen"
+        <activity
+            android:name=".ui.SpinnerActivity"
+            android:label="@string/title_activity_spinner">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.SpinResult"
+            android:label="@string/title_activity_spin_result">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.SpinnerActivity" />
         </activity>
     </application>
 
