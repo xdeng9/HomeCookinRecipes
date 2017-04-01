@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView mRecyclerView;
     private RecipeRecyclerAdapter mAdapter;
+    private DrawerLayout mDrawer;
     private ProgressBar mProgressBar;
     private TextView mTextView;
     private String mSelection, mSortOrder;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mTextView = (TextView) findViewById(R.id.empty_view);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -84,17 +85,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
-//        searchView.setSearchableInfo(
-//                searchManager.getSearchableInfo(getComponentName()));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                processQuery(query);
+                processQuery(query.trim());
                 return false;
             }
 
@@ -142,10 +139,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_spinner) {
             Intent intent = new Intent(this, SpinnerActivity.class);
             startActivity(intent);
+            mDrawer.closeDrawer(GravityCompat.START);
+            return true;
         }
+        mDrawer.closeDrawer(GravityCompat.START);
         reload();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
