@@ -1,7 +1,5 @@
 package com.example.android.homecookinrecipes;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,12 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
 import com.example.android.homecookinrecipes.ui.SpinnerActivity;
-import com.example.android.homecookinrecipes.utility.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -87,14 +83,12 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 processQuery(query.trim());
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String text) {
                 return false;
@@ -149,7 +143,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
         return new CursorLoader(
                 this,
                 RecipeContract.RecipeEntry.CONTENT_URI,
