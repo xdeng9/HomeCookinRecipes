@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.homecookinrecipes.ui.SpinResult">
@@ -22,7 +26,6 @@
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toTopOf="parent"
         ads:layout_constraintVertical_bias="0.022"
-        ads:srcCompat="@drawable/place_holder"
         tools:layout_editor_absoluteX="-90dp"
         tools:layout_editor_absoluteY="-12dp" />
 
@@ -33,7 +36,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Recipe Title"
+        android:gravity="center"
+        android:textColor="@color/primaryText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -45,7 +50,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="7dp"
-        android:text="Publisher"
+        android:gravity="center"
+        android:textColor="@color/secondaryText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         ads:layout_constraintHorizontal_bias="0.0"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
@@ -60,6 +67,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:isIndicator="true"
         ads:layout_constraintTop_toBottomOf="@+id/publisher_tv" />
 
     <Button
@@ -70,6 +78,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="View This Recipe"
+        android:onClick="viewRecipe"
+        android:background="#80BD9E"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toBottomOf="@+id/ratingBar" />
@@ -82,6 +92,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="Spin Again"
+        android:onClick="spinAgain"
+        android:background="#F98866"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toBottomOf="@+id/view_recipe" />
@@ -97,5 +109,9 @@
         ads:adUnitId="@string/banner_ad_unit_id"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintLeft_toLeftOf="parent"
-        ads:layout_constraintRight_toRightOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        ads:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        ads:layout_constraintTop_toBottomOf="@+id/recipe_spin"
+        ads:layout_constraintHorizontal_bias="0.499"
+        ads:layout_constraintVertical_bias="1.0" />
+</android.support.constraint.ConstraintLayout></ScrollView>
