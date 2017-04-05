@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -182,6 +184,15 @@ public class Util {
             }
         });
         thread.start();
+    }
+
+    public static boolean isConnected(Context context){
+        boolean connected;
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetWork = cm.getActiveNetworkInfo();
+        connected = activeNetWork != null && activeNetWork.isConnectedOrConnecting();
+
+        return connected;
     }
 
 }
