@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.data.RecipeRecyclerAdapter;
 import com.example.android.homecookinrecipes.ui.SpinnerActivity;
+import com.example.android.homecookinrecipes.utility.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -161,7 +162,12 @@ public class MainActivity extends AppCompatActivity
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         } else if (data.getCount() == 0) {
-            if (mSelection != null && (mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")
+            if (!Util.isConnected(this)){
+                mRecyclerView.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.INVISIBLE);
+                mTextView.setText("Please check internet connection.");
+                mTextView.setVisibility(View.VISIBLE);
+            } else if (mSelection != null && (mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")
             || mSelection.equals(RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?"))) {
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
