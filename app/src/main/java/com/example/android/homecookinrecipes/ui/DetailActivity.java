@@ -61,6 +61,10 @@ public class DetailActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if(!Util.isConnected(this)){
+            Toast.makeText(this,"Please check internet connection", Toast.LENGTH_LONG).show();
+        }
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(mDetailRecipe.getSource_url());
 
