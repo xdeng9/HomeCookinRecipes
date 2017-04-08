@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
             if (!Util.isConnected(this)){
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
-                mTextView.setText("Please check internet connection.");
+                mTextView.setText(R.string.internet_connection_message);
                 mTextView.setVisibility(View.VISIBLE);
             } else if (mSelection != null && (mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")
             || mSelection.equals(RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?"))) {

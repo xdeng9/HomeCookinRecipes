@@ -12,10 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by administrator on 3/16/17.
- */
-
 public class RecipeSyncTask {
 
     private static final int MAX_API_REQUEST = 10;

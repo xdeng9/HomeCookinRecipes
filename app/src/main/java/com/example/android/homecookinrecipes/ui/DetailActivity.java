@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         if(!Util.isConnected(this)){
-            Toast.makeText(this,"Please check internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.internet_connection_message, Toast.LENGTH_LONG).show();
         }
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(mDetailRecipe.getSource_url());
@@ -114,9 +114,9 @@ public class DetailActivity extends AppCompatActivity {
 
     private void displayToast(){
         if(mIsFav){
-            Toast.makeText(this, "Recipe added to favorites.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.add_to_fav, Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(this, "Recipe removed from favorites.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.remove_from_fav, Toast.LENGTH_SHORT).show();
         }
     }
 
