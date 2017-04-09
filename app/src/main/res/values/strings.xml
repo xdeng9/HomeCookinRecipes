@@ -20,4 +20,6 @@
     <string name="add_to_fav">Recipe added to favorites.</string>
     <string name="remove_from_fav">Recipe removed from favorites.</string>
     <string name="no_result_found">No results found.</string>
+
+    <string name="text_place_holder">--</string>
 </resources>
