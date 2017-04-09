@@ -9,4 +9,9 @@
     <dimen name="empty_view_text_size">24sp</dimen>
 
     <integer name="list_column_count">2</integer>
+
+    <dimen name="widget_min_height">180dp</dimen>
+    <dimen name="widget_min_width">250dp</dimen>
+    <dimen name="widget_min_resize_height">150dp</dimen>
+    <dimen name="widget_min_resize_width">220dp</dimen>
 </resources>

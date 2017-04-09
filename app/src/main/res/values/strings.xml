@@ -11,6 +11,7 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_spinner">What would you like to cook?</string>
     <string name="title_activity_spin_result">May we suggest...</string>
+    <string name="title_widget">Today\'s Special</string>
 
     <string name="action_share">Share</string>
     <string name="action_fav">Bookmark</string>
