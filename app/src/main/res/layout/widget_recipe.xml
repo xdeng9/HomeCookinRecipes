@@ -8,12 +8,15 @@
         android:layout_height="wrap_content"
         android:text="@string/title_widget"
         android:gravity="center"
-        android:textSize="30sp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"/>
+        android:textSize="@dimen/widget_title_text_size"
+        android:textColor="@color/white"
+        android:paddingTop="@dimen/widget_padding"
+        android:paddingBottom="@dimen/widget_padding"
+        android:background="@color/colorPrimary"/>
 
     <ListView
         android:id="@+id/widget_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/white" />
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.example.android.homecookinrecipes.widget;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Binder;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
@@ -20,7 +19,6 @@ public class RecipeWidgetRemoteViewsService extends RemoteViewsService{
             private Cursor data;
             @Override
             public void onCreate() {
-
             }
 
             @Override
@@ -34,7 +32,7 @@ public class RecipeWidgetRemoteViewsService extends RemoteViewsService{
                         null,
                         RecipeContract.RecipeEntry.COLUMN_RATING + "=?",
                         new String[]{"100"},
-                        "RANDOM() LIMIT 3"
+                        "RANDOM() LIMIT 5"
                 );
                 Binder.restoreCallingIdentity(identityToken);
             }
@@ -71,7 +69,6 @@ public class RecipeWidgetRemoteViewsService extends RemoteViewsService{
                 final double recipeRating = data.getDouble(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));;
                 final int fav = data.getInt(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_ISFAV));
 
-                views.setImageViewUri(R.id.widget_item_image, Uri.parse(imageUrl));
                 views.setTextViewText(R.id.widget_item_title, title);
                 views.setTextViewText(R.id.widget_item_publisher, publisher);
                 Recipe recipe = new Recipe(id, title, publisher, imageUrl, sourceUrl, recipeRating, fav);
