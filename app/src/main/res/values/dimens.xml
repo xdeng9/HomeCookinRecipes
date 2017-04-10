@@ -17,6 +17,14 @@
     <dimen name="widget_padding">8dp</dimen>
     <dimen name="widget_margin">12dp</dimen>
 
+    <!-- Recipe Cardview -->
+    <dimen name="card_text_padding_left">16dp</dimen>
+    <dimen name="card_text_padding_right">16dp</dimen>
+    <dimen name="card_text_padding_bottom">16dp</dimen>
+    <dimen name="card_text_padding_top">16dp</dimen>
+    <dimen name="card_ratingbar_padding_top">4dp</dimen>
+
     <!-- Other -->
     <integer name="list_column_count">2</integer>
+    <dimen name="cardview_elevation">6dp</dimen>
 </resources>
