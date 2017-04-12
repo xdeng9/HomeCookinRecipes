@@ -15,7 +15,9 @@
         android:textColor="@color/primaryText"
         android:paddingLeft="@dimen/widget_margin"
         android:paddingRight="@dimen/widget_margin"
-        android:paddingTop="@dimen/widget_padding"/>
+        android:paddingTop="@dimen/widget_padding"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/widget_item_publisher"
