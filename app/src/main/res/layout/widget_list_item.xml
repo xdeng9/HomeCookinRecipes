@@ -14,7 +14,9 @@
         style="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/primaryText"
         android:paddingLeft="@dimen/widget_margin"
+        android:paddingStart="@dimen/widget_margin"
         android:paddingRight="@dimen/widget_margin"
+        android:paddingEnd="@dimen/widget_margin"
         android:paddingTop="@dimen/widget_padding"
         android:maxLines="1"
         android:ellipsize="end"/>
@@ -27,7 +29,9 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/secondaryText"
         android:paddingLeft="@dimen/widget_margin"
+        android:paddingStart="@dimen/widget_margin"
         android:paddingRight="@dimen/widget_margin"
+        android:paddingEnd="@dimen/widget_margin"
         android:paddingBottom="@dimen/widget_padding"/>
 
 </LinearLayout>

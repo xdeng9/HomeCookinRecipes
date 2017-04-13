@@ -7,8 +7,11 @@
 
     <color name="gold">#FFD740</color>
     <color name="white">#FFFFFF</color>
+    <color name="lightGreen">#80BD9E</color>
+    <color name="lightRed">#F98866</color>
+    <color name="deepGold">#FFBB00</color>
+    <color name="brightGreen">#89DA59</color>
 
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#727272</color>
-
 </resources>

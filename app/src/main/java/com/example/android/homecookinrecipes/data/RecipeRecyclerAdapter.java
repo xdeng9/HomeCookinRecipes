@@ -65,7 +65,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
         Glide.with(mContext)
                 .load(imageUrl)
-                .fitCenter()
+                .override(800,800)
+                .centerCrop()
                 .into(holder.recipeImage);
 
         final Recipe recipe = new Recipe(id, title, publisher, imageUrl, sourceUrl, recipeRating, fav);

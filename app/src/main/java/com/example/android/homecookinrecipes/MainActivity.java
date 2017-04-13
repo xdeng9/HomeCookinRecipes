@@ -1,6 +1,7 @@
 package com.example.android.homecookinrecipes;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.LoaderManager;
@@ -66,7 +67,14 @@ public class MainActivity extends AppCompatActivity
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mTextView = (TextView) findViewById(R.id.empty_view);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager =
+                    new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        }else{
+            layoutManager =
+                    new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        }
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new RecipeRecyclerAdapter(this);
@@ -91,6 +99,7 @@ public class MainActivity extends AppCompatActivity
                 processQuery(query.trim());
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String text) {
                 return false;
@@ -101,7 +110,7 @@ public class MainActivity extends AppCompatActivity
 
     private void processQuery(String query) {
         mSelection = RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?";
-        mSelectionArgs = new String[]{"%"+query+"%"};
+        mSelectionArgs = new String[]{"%" + query + "%"};
         reload();
     }
 
@@ -163,13 +172,13 @@ public class MainActivity extends AppCompatActivity
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         } else if (data.getCount() == 0) {
-            if (!Util.isConnected(this)){
+            if (!Util.isConnected(this)) {
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 mTextView.setText(R.string.internet_connection_message);
                 mTextView.setVisibility(View.VISIBLE);
             } else if (mSelection != null && (mSelection.equals(RecipeContract.RecipeEntry.COLUMN_ISFAV + " =?")
-            || mSelection.equals(RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?"))) {
+                    || mSelection.equals(RecipeContract.RecipeEntry.COLUMN_TITLE + " LIKE ?"))) {
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 mTextView.setVisibility(View.VISIBLE);

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card_view"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/cardview_layout_margin"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
@@ -18,16 +18,20 @@
         <ImageView
             android:id="@+id/recipe_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/place_holder_image"/>
 
         <TextView
             android:id="@+id/recipe_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_text_padding_left"
+            android:paddingStart="@dimen/card_text_padding_left"
             android:paddingTop="@dimen/card_text_padding_top"
             android:paddingRight="@dimen/card_text_padding_right"
+            android:paddingEnd="@dimen/card_text_padding_right"
             android:textColor="@color/primaryText"
+            android:text="@string/text_place_holder"
             style="@style/TextAppearance.AppCompat.Subhead"/>
 
         <RatingBar
@@ -40,16 +44,20 @@
             style="?android:attr/ratingBarStyleSmall"
             android:paddingTop="@dimen/card_ratingbar_padding_top"
             android:paddingBottom="@dimen/card_ratingbar_padding_top"
-            android:layout_marginLeft="@dimen/card_text_padding_left" />
+            android:layout_marginLeft="@dimen/card_text_padding_left"
+            android:layout_marginStart="@dimen/card_text_padding_left"/>
 
         <TextView
             android:id="@+id/recipe_publisher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_text_padding_left"
+            android:paddingStart="@dimen/card_text_padding_left"
             android:paddingRight="@dimen/card_text_padding_right"
+            android:paddingEnd="@dimen/card_text_padding_right"
             android:paddingBottom="@dimen/card_text_padding_bottom"
             android:textColor="@color/secondaryText"
+            android:text="@string/text_place_holder"
             style="@style/TextAppearance.AppCompat.Body1"/>
     </LinearLayout>
 
