@@ -19,7 +19,8 @@
         android:paddingEnd="@dimen/widget_margin"
         android:paddingTop="@dimen/widget_padding"
         android:maxLines="1"
-        android:ellipsize="end"/>
+        android:ellipsize="end"
+        android:contentDescription="@string/recipe_title"/>
 
     <TextView
         android:id="@+id/widget_item_publisher"
@@ -32,6 +33,7 @@
         android:paddingStart="@dimen/widget_margin"
         android:paddingRight="@dimen/widget_margin"
         android:paddingEnd="@dimen/widget_margin"
-        android:paddingBottom="@dimen/widget_padding"/>
+        android:paddingBottom="@dimen/widget_padding"
+        android:contentDescription="@string/recipe_publisher"/>
 
 </LinearLayout>

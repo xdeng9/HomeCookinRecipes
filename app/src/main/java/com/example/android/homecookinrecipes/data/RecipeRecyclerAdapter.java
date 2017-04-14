@@ -65,8 +65,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
         Glide.with(mContext)
                 .load(imageUrl)
-                .placeholder(R.drawable.place_holder_image)
-                .override(700,700)
+                .placeholder(R.drawable.placeholder_image)
                 .centerCrop()
                 .crossFade()
                 .into(holder.recipeImage);

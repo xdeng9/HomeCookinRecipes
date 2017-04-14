@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.example.android.homecookinrecipes.data.Recipe;
 import com.example.android.homecookinrecipes.data.RecipeContract;
 import com.example.android.homecookinrecipes.sync.ImmediateSyncService;
 import com.example.android.homecookinrecipes.sync.RecipeJobService;
@@ -26,16 +25,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-
-import static android.R.attr.id;
-import static java.lang.System.in;
 
 public class Util {
 

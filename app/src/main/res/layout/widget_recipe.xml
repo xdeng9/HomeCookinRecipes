@@ -12,7 +12,8 @@
         android:textColor="@color/white"
         android:paddingTop="@dimen/widget_padding"
         android:paddingBottom="@dimen/widget_padding"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/title_widget"/>
 
     <ListView
         android:id="@+id/widget_list"

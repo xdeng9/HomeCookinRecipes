@@ -34,6 +34,21 @@
     <string name="pizza_label">Pizza</string>
     <string name="pork_label">Pork</string>
 
+    <!--Content Description-->
+    <string name="menu">Menu</string>
+    <string name="toolbar">Tool Bar</string>
+    <string name="appbar">App bar</string>
+    <string name="progressbar">Progress bar</string>
+    <string name="webview">Web View</string>
+    <string name="recipe_image">Recipe Image</string>
+    <string name="recipe_title">Recipe Title</string>
+    <string name="recipe_publisher">Recipe Publisher</string>
+    <string name="recipe_rating">Recipe Rating</string>
+    <string name="view_recipe">View Recipe</string>
+    <string name="spin_recipe">Spin Recipe</string>
+    <string name="ad">Ad</string>
+    <string name="logo">Logo</string>
+
     <!-- Other (ad_id, widget, etc) -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="title_widget">Today\'s Special</string>

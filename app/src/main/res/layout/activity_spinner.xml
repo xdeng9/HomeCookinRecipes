@@ -26,7 +26,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_appetizer" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_appetizer"
+            android:contentDescription="@string/beef_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_appetizer"
+            android:nextFocusDown="@+id/btn_bread"/>
 
         <Button
             android:id="@+id/btn_vege"
@@ -43,7 +47,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_soup" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_soup"
+            android:contentDescription="@string/vegetarian_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_soup"
+            android:nextFocusDown="@+id/btn_any"/>
 
         <Button
             android:id="@+id/btn_soup"
@@ -60,7 +68,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_pork" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_pork"
+            android:contentDescription="@string/soup_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_pork"
+            android:nextFocusDown="@+id/btn_vege"/>
 
         <Button
             android:id="@+id/btn_fish"
@@ -77,7 +89,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_desserts" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_desserts"
+            android:contentDescription="@string/fish_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_desserts"
+            android:nextFocusDown="@+id/btn_pasta"/>
 
         <Button
             android:id="@+id/btn_desserts"
@@ -94,7 +110,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_chicken" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_chicken"
+            android:contentDescription="@string/dessert_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_chicken"
+            android:nextFocusDown="@+id/btn_fish"/>
 
         <Button
             android:id="@+id/btn_chicken"
@@ -111,7 +131,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_cake" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_cake"
+            android:contentDescription="@string/chicken_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_cake"
+            android:nextFocusDown="@+id/btn_desserts"/>
 
         <Button
             android:id="@+id/btn_bread"
@@ -128,7 +152,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_beef" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_beef"
+            android:contentDescription="@string/bread_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_beef"
+            android:nextFocusDown="@+id/btn_cake"/>
 
         <Button
             android:id="@+id/btn_cake"
@@ -145,7 +173,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_bread" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_bread"
+            android:contentDescription="@string/cake_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_bread"
+            android:nextFocusDown="@+id/btn_chicken"/>
 
         <Button
             android:id="@+id/btn_appetizer"
@@ -162,7 +194,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/appetizer_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_any"
+            android:nextFocusDown="@+id/btn_beef"/>
 
         <Button
             android:id="@+id/btn_pasta"
@@ -179,7 +215,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_fish" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_fish"
+            android:contentDescription="@string/pasta_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_fish"
+            android:nextFocusDown="@+id/btn_pizza"/>
 
         <Button
             android:id="@+id/btn_any"
@@ -199,7 +239,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_vege"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/any_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_vege"
+            android:nextFocusDown="@+id/btn_appetizer"/>
 
         <Button
             android:id="@+id/btn_pizza"
@@ -216,7 +260,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_pasta" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_pasta"
+            android:contentDescription="@string/pizza_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_pasta"
+            android:nextFocusDown="@+id/btn_pork"/>
 
         <Button
             android:id="@+id/btn_pork"
@@ -233,6 +281,10 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_pizza" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_pizza"
+            android:contentDescription="@string/pork_label"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_pizza"
+            android:nextFocusDown="@+id/btn_soup"/>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -19,7 +19,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.411"
-        app:srcCompat="@drawable/ic_launcher" />
+        app:srcCompat="@drawable/ic_launcher"
+        android:contentDescription="@string/logo"/>
 
     <TextView
         android:id="@+id/textView"
@@ -35,5 +36,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/launchImage" />
+        app:layout_constraintTop_toBottomOf="@+id/launchImage"
+        android:contentDescription="@string/app_name"/>
 </android.support.constraint.ConstraintLayout>
