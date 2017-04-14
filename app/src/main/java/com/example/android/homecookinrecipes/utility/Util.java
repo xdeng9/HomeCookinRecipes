@@ -37,7 +37,7 @@ public class Util {
     static final String SORT_PARAM = "sort";
     static final String PAGE_PARAM = "page";
     static final String KEY_PARAM = "key";
-    static final String API_KEY = "500bdd2ed4423c9e460ca447d1b194e2";
+    static final String API_KEY = "";
     static final String FOOD_URL = "http://food2fork.com/api/search";
 
     static final int SYNC_INTERVAL_HOURS = 48;
