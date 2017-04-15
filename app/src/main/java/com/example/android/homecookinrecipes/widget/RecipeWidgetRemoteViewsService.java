@@ -66,7 +66,7 @@ public class RecipeWidgetRemoteViewsService extends RemoteViewsService{
                 final String publisher = data.getString(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_PUBLISHER));
                 final String imageUrl = data.getString(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL));
                 final String sourceUrl = data.getString(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_SOURCE_URL));
-                final double recipeRating = data.getDouble(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));;
+                final double recipeRating = data.getDouble(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));
                 final int fav = data.getInt(data.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_ISFAV));
 
                 views.setTextViewText(R.id.widget_item_title, title);

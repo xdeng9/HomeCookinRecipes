@@ -105,7 +105,7 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
         String publisher = cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_PUBLISHER));
         String imageUrl = cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL));
         String sourceUrl = cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_SOURCE_URL));
-        double recipeRating = cursor.getDouble(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));;
+        double recipeRating = cursor.getDouble(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));
         int fav = cursor.getInt(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_ISFAV));
         mRecipe = new Recipe(id,title,publisher,imageUrl,sourceUrl,recipeRating,fav);
 

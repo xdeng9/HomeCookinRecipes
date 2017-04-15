@@ -17,7 +17,7 @@
 
     <!-- Spinner -->
     <string name="title_activity_spinner">What would you like to cook?</string>
-    <string name="title_activity_spin_result">May we suggest...</string>
+    <string name="title_activity_spin_result">May we suggest&#8230;</string>
     <string name="spin_again_label">Spin Again</string>
     <string name="view_recipe_label">View This Recipe</string>
     <string name="beef_label">Beef</string>
@@ -53,4 +53,9 @@
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="title_widget">Today\'s Special</string>
     <string name="text_place_holder">--</string>
+    <string name="trending">Trending</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="favorites">Favorites</string>
+    <string name="recipe_spinner">Recipe Spinner</string>
+    <string name="recommended">Recommended</string>
 </resources>

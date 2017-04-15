@@ -5,24 +5,23 @@
         <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_trending"
-            android:title="Trending" />
+            android:title="@string/trending" />
         <item
             android:id="@+id/nav_top_rated"
             android:icon="@drawable/ic_top_rated"
-            android:title="Top Rated" />
+            android:title="@string/top_rated" />
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_favorite"
-            android:title="Favorites" />
+            android:title="@string/favorites" />
         <item
             android:id ="@+id/nav_spinner"
             android:icon="@drawable/ic_recipe_spinner"
-            android:title="Recipe Spinner" />
-
+            android:title="@string/recipe_spinner" />
         <item
             android:id ="@+id/nav_recommended"
             android:icon="@drawable/ic_recommended"
-            android:title="Recommended" />
+            android:title="@string/recommended" />
     </group>
 
 </menu>

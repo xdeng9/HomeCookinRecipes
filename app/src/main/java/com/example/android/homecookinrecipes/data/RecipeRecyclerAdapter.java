@@ -55,7 +55,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         final String publisher = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_PUBLISHER));
         final String imageUrl = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_URL));
         final String sourceUrl = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_SOURCE_URL));
-        final double recipeRating = mCursor.getDouble(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));;
+        final double recipeRating = mCursor.getDouble(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RATING));
         final int fav = mCursor.getInt(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_ISFAV));
 
         holder.recipeTitle.setText(title);

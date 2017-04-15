@@ -23,7 +23,7 @@ public class RecipeContract {
         public static final String COLUMN_SORT = "sort_by";
         public static final String COLUMN_ISFAV = "is_fav";
 
-        public static final Uri buildRecipeUri(String id){
+        public static Uri buildRecipeUri(String id){
             String s = CONTENT_URI.toString() +"/"+id;
             return Uri.parse(s);
         }
