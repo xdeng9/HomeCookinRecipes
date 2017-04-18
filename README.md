@@ -1,2 +1,2 @@
 # HomeCookinRecipes
-Capstone project for Udacity's Android Nano degree.
+Capstone project for Udacity's Android Nanodegree.
