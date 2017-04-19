@@ -1,4 +1,4 @@
-# HomeCookinRecipes
+# Home Cookin Recipes
 Capstone project for Udacity's Android Nanodegree.
 
 ## Features
