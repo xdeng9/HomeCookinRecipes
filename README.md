@@ -3,8 +3,8 @@ Capstone project for Udacity's Android Nanodegree.
 
 <img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-004716.png" width="200"/>
 <img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-004819.png" width="200"/>
-<img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-005451.png"/>
-<img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-005147.png"/>
+<img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-005451.png" width="200"/>
+<img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-005147.png" width="200"/>
 
 ## Features
 - View a large collection of delicious recipes at your fingertips
