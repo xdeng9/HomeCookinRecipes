@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:368566860530:android:eb909a5b6533482f",
         "android_client_info": {
-          "package_name": "com.example.android.homecookinrecipes"
+          "package_name": "com.cookin.android.homecookinrecipes"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "368566860530-2dtjf60aqc69s2k5cio60te89fkbjagm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.android.homecookinrecipes",
+            "package_name": "com.cookin.android.homecookinrecipes",
             "certificate_hash": "b888ba8b4600a58e33476f51f7f2fd2304f910db"
           }
         },

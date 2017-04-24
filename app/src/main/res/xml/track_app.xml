@@ -2,16 +2,16 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name = "ga_trackingId">UA-91625015-3</string>
     <bool name="ga_autoActivityTracking">true</bool>
-    <screenName name="com.example.android.homecookinrecipes.MainActivity">
+    <screenName name="com.cookin.android.homecookinrecipes.MainActivity">
         Main screen
     </screenName>
-    <screenName name="com.example.android.homecookinrecipes.ui.DetailActivity">
+    <screenName name="com.cookin.android.homecookinrecipes.ui.DetailActivity">
         Recipe detail
     </screenName>
-    <screenName name="com.example.android.homecookinrecipes.ui.SpinnerActivity">
+    <screenName name="com.cookin.android.homecookinrecipes.ui.SpinnerActivity">
         Recipe spinner
     </screenName>
-    <screenName name="com.example.android.homecookinrecipes.ui.SpinResult">
+    <screenName name="com.cookin.android.homecookinrecipes.ui.SpinResult">
         Show recipe
     </screenName>
 </resources>

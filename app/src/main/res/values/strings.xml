@@ -50,7 +50,8 @@
     <string name="logo">Logo</string>
 
     <!-- Other (ad_id, widget, etc) -->
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="main_banner_ad_unit_id">ca-app-pub-7370263933129544/9368152715</string>
+    <string name="spin_banner_ad_unit_id">ca-app-pub-7370263933129544/9228551917</string>
     <string name="title_widget">Today\'s Special</string>
     <string name="text_place_holder">--</string>
     <string name="trending">Trending</string>

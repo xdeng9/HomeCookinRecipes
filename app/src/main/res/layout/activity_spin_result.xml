@@ -9,7 +9,7 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.homecookinrecipes.ui.SpinResult">
+    tools:context="com.cookin.android.homecookinrecipes.ui.SpinResult">
 
 
     <ImageView
@@ -132,7 +132,7 @@
         android:layout_marginRight="@dimen/spinner_ad_margin"
         android:layout_marginEnd="@dimen/spinner_ad_margin"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
+        ads:adUnitId="@string/spin_banner_ad_unit_id"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent"
