@@ -17,3 +17,5 @@ Capstone project for Udacity's Android Nanodegree.
 
 ## App is avaliable in Google Play Store
 https://play.google.com/store/apps/details?id=com.cookin.android.homecookinrecipes
+
+## License
