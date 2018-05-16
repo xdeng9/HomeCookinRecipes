@@ -19,3 +19,4 @@ Capstone project for Udacity's Android Nanodegree.
 https://play.google.com/store/apps/details?id=com.cookin.android.homecookinrecipes
 
 ## License
+This work is released under the MIT License.
