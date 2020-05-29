@@ -1,5 +1,5 @@
 # Home Cookin Recipes
-Capstone project for Udacity's Android Nanodegree.
+An Android app that lets users view, share, and save receipes.
 
 <img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-004716.png" width="200"/><img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-004819.png" width="200"/><img src="https://github.com/xdeng9/HomeCookinRecipes/blob/master/Home%20Cookin%20Recipes%20Screenshots/device-2017-04-16-005451.png" width="200"/>
 
